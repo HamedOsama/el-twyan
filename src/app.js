@@ -1,15 +1,20 @@
-const express = require('express')
-const app = express()
-const path = require('path')
-const PORT = process.PORT || 5000
-require('./connection/db')
+const express = require('express');
+const app = express();
+const path = require('path');
+const cors = require('cors');
 const errorMiddleWare = require('./middleware/error-middleware');
 const ServerError = require('./interface/Error');
 const api = require('./router/index');
+require('./connection/db')
+
+const PORT = process.PORT || 5000
 
 // middleware
 // app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
+
+// cors
+app.use(cors());
 
 app.use('/images', express.static(path.join(__dirname, "./src/images")))
 app.use('/resumes', express.static(path.join(__dirname, "./src/resume")))
@@ -21,7 +26,7 @@ app.get('/', (req, res) => {
 })
 
 // api routes
-app.use('/api/v1' , api);
+app.use('/api/v1', api);
 
 app.use((_, __, next) => {
   next(ServerError.badRequest(404, 'page not found'))
