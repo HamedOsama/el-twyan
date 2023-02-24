@@ -13,6 +13,18 @@ const serviceSchema = mongoose.Schema({
             required: true,
         }
     },
+    subTitle: {
+        en: {
+            type: String,
+            trim: true,
+            required: true,
+        },
+        ar: {
+            type: String,
+            trim: true,
+            required: true,
+        }
+    },
     description: {
         en: {
             type: String,
