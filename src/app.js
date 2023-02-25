@@ -16,8 +16,9 @@ app.use(express.json())
 // cors
 app.use(cors());
 
-app.use('/images', express.static(path.join(__dirname, "./src/images")))
-app.use('/resumes', express.static(path.join(__dirname, "./src/resume")))
+
+app.use('/images', express.static(path.join(__dirname, "./images")))
+app.use('/resumes', express.static(path.join(__dirname, "./resume")))
 
 
 // homepage
