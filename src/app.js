@@ -7,7 +7,7 @@ const ServerError = require('./interface/Error');
 const api = require('./router/index');
 require('./connection/db')
 
-const PORT = process.PORT || 5000
+const PORT = process.PORT || 8000
 
 // middleware
 // app.use(express.urlencoded({ extended: true }))
