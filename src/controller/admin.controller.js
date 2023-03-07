@@ -40,7 +40,8 @@ const Uploads = multer({
 const addSlider = async (req, res, next) => {
   try {
     const slider = new Slider(req.body)
-    slider.image = req.file.filename
+    if (req.file)
+      slider.image = req.file.filename
     await slider.save()
     res.status(201).json({
       ok: true,

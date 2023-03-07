@@ -3,11 +3,17 @@ const mongoose = require('mongoose')
 const sliderSchema = mongoose.Schema({
   image: {
     type: String,
-    required: true
   },
   text: {
-    type: String,
-    required: true
+    en: {
+      type: String,
+      required: true
+    },
+    ar: {
+      type: String,
+      required: true
+    }
+
   }
 })
 
