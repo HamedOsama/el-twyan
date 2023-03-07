@@ -12,6 +12,10 @@ router.post('/login', adminController.login)
 router.post('logout', auth, adminController.logout)
 
 router.route('/slider')
-  .get(auth, adminController.getAllSliders).post(auth, uploadImage.single('image'), adminController.addSlider);
+  .get(auth, adminController.getAllSliders)
+  .post(auth, uploadImage.single('image'), adminController.addSlider)
+router.route('/slider/:id')
+  .patch(auth, uploadImage.single('image'), adminController.updateSlider)
+  .delete(auth, adminController.deleteSlider)
 
 module.exports = router;
