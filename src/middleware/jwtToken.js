@@ -22,7 +22,6 @@ const sendToken = async(user, statusCode, res) => {
     user,
     token,
   });
-  console.log(1)
 };
 
 module.exports = sendToken;

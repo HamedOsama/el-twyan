@@ -7,7 +7,7 @@ const uploadImage = require('../../utils/uploadImage');
 const router = Router();
 
 // auth 
-router.post('/signup', auth, adminController.signUp)
+router.post('/signup', adminController.signUp)
 router.post('/login', auth, adminController.login)
 router.post('logout', auth, adminController.logout)
 

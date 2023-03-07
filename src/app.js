@@ -5,6 +5,7 @@ const cors = require('cors');
 const errorMiddleWare = require('./middleware/error-middleware');
 const ServerError = require('./interface/Error');
 const api = require('./router/index');
+const cookieParser = require("cookie-parser");
 require('./connection/db')
 
 const PORT = process.PORT || 5000
@@ -12,6 +13,7 @@ const PORT = process.PORT || 5000
 // middleware
 // app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
+app.use(cookieParser());
 
 // cors
 app.use(cors());
