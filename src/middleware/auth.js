@@ -1,9 +1,10 @@
-const Admin= require('../model/admin')
+const Admin = require('../model/admin')
 const ServerError = require("../utils/ErrorInterface");
 const jwt = require("jsonwebtoken");
 
 const auth = async (req, res, next) => {
   try {
+    console.log(req.cookies);
     const { access_token: token } = req.cookies;
     if (!token) {
       return next(ServerError.badRequest(401, 'Please Login to access this resource'));
@@ -28,5 +29,5 @@ const auth = async (req, res, next) => {
 };
 
 
-module.exports=auth
+module.exports = auth
 
