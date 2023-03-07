@@ -137,7 +137,7 @@ const login = async (req, res, next) => {
   try {
     const admin = await Admin.Login(req.body.email, req.body.password)
 
-    sendToken(admin, 201, res);
+    sendToken(admin, 200, res);
 
   }
   catch (e) {

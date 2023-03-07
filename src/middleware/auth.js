@@ -10,15 +10,15 @@ const auth = async (req, res, next) => {
       return next(ServerError.badRequest(401, 'Please Login to access this resource'));
     }
 
-    const decodedData = jwt.verify(token, process.env.JWT_SECRET);
-    // console.log(token)
-    const user = await Admin.findOne({ _id: decodedData.id, tokens: token });
+    const decodedData = jwt.verify(token, "PROJECT");
+    console.log(decodedData)
+    const user = await Admin.findOne({ _id: decodedData._id, tokens: token });
     if (!user) {
       console.log('error')
-      return next(ServerError.badRequest(401, 'Please Login to access this resource'));
+      return next(ServerError.badRequest(401, 'Invalid token'));
     }
     console.log('found')
-    req.user = user
+    req.admin = user
 
     next();
   }
