@@ -23,4 +23,13 @@ router.route('/slider/:id')
 router.route('/client').get(auth, adminController.getAllClients).post(auth, uploadImage.single('image'), adminController.addClient)
 router.route('/client/:id').patch(auth, uploadImage.single('image'), adminController.updateClient).delete(auth, adminController.deleteClient)
 
+//newsletters
+router.route('/newsletter').get(auth, adminController.getAllNewsLetters)
+
+// request
+router.route('/request').get(auth, adminController.getAllRequests)
+router.route('/request/:id')
+  .get(auth, adminController.getRequestById)
+  .patch(auth, adminController.updateRequest)
+  .delete(auth, adminController.deleteRequest)
 module.exports = router;

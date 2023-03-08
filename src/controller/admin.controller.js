@@ -10,7 +10,7 @@ const Client = require('../model/clients')
 // const Info = require('../model/information')
 const Slider = require('../model/slider')
 // const Blog = require('../model/blogs')
-// const NewsLetter = require('../model/newsLetter')
+const NewsLetter = require('../model/newsLetter')
 const multer = require('multer')
 const path = require('path')
 const sendToken = require('../middleware/jwtToken')
@@ -183,6 +183,9 @@ const deleteClient = async (req, res, next) => {
   try {
     const clientId = req.params.id
     const client = await Client.findByIdAndDelete({ _id: clientId })
+    if (!client) {
+      return res.status(404).send('not found')
+    }
     res.status(200).json({
       ok: true,
       status: 200,
@@ -194,8 +197,6 @@ const deleteClient = async (req, res, next) => {
     next(e)
   }
 }
-
-
 // router.delete('/admin/client/deleteall', auth, async (req, res) => {
 //   try {
 //     await Client.deleteMany({})
@@ -207,6 +208,102 @@ const deleteClient = async (req, res, next) => {
 // })
 
 
+// //newsLetter
+
+const getAllNewsLetters = async (req, res, next) => {
+  try {
+    const members = await NewsLetter.find()
+    res.status(200).json({
+      ok: true,
+      status: 200,
+      message: 'succeeded',
+      body: members
+    })
+  }
+  catch (e) {
+    next(e);
+  }
+}
+
+
+// requests
+const getAllRequests = async (req, res, next) => {
+  try {
+    const requests = await Request.find()
+    res.status(200).json({
+      ok: true,
+      status: 200,
+      message: 'succeeded',
+      body: requests
+    })
+  }
+  catch (e) {
+    next(e);
+  }
+}
+const getRequestById = async (req, res, next) => {
+  try {
+    const requestId = req.params.id
+    const request = await Request.findById({ _id: requestId })
+    if (!request) {
+      return res.status(404).send('wrong id')
+    }
+    return res.status(200).json({
+      ok: true,
+      status: 200,
+      message: 'succeeded',
+      body: request
+    })
+  }
+  catch (e) {
+    next(e);
+  }
+}
+const updateRequest = async (req, res, next) => {
+  try {
+    const requestId = req.params.id
+    const request = await Request.findByIdAndUpdate({ _id: requestId }, req.body, {
+      new: true,
+      runValidators: true
+    })
+    if (!request)
+      return res.status(404).send('not found')
+    res.status(200).json({
+      ok: true,
+      status: 200,
+      message: 'succeeded',
+      body: request
+    })
+  } catch (e) {
+    next(e);
+  }
+}
+const deleteRequest = async (req, res, next) => {
+  try {
+    const requestId = req.params.id
+    const request = await Request.findByIdAndDelete({ _id: requestId })
+    if (!request) {
+      return res.status(404).send('not found')
+    }
+    res.status(200).json({
+      ok: true,
+      status: 200,
+      message: 'succeeded',
+      body: 'request deleted'
+    })
+  } catch (e) {
+    next(e);
+  }
+}
+// router.delete('/admin/request/deleteall', auth, async (req, res) => {
+//   try {
+//     await Request.deleteMany({})
+//     res.status(200).send('done')
+//   }
+//   catch (e) {
+//     res.status(400).send(e.message)
+//   }
+// })
 
 
 
@@ -544,17 +641,7 @@ const logout = async (req, res, next) => {
 //     res.status(400).send(e.message)
 //   }
 // })
-// //newsLetter
 
-// router.get('/admin/news/getall', auth, async (req, res) => {
-//   try {
-//     const membrs = await NewsLetter.find()
-//     res.status(200).send(membrs)
-//   }
-//   catch (e) {
-//     res.status(400).send(e.message)
-//   }
-// })
 // //contact us 
 // router.post('/admin/contact/add', auth, async (req, res) => {
 //   try {
@@ -688,6 +775,11 @@ module.exports = {
   updateClient,
   getAllClients,
   deleteClient,
+  getAllNewsLetters,
+  getAllRequests,
+  getRequestById,
+  updateRequest,
+  deleteRequest,
   signUp,
   login,
   logout,
