@@ -9,7 +9,7 @@ const cookieParser = require("cookie-parser");
 const morgan = require('morgan');
 require('./connection/db')
 
-const PORT = process.PORT || 5000
+const PORT = process.argv[2] || 5000
 
 // middleware
 // app.use(express.urlencoded({ extended: true }))
