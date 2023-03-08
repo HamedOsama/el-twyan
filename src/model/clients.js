@@ -4,6 +4,9 @@ const clientSchema = mongoose.Schema({
     image: {
         type: String,
         required: true
+    },
+    name: {
+        type: String,
     }
 })
 clientSchema.methods.toJSON = function () {

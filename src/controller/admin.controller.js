@@ -3,7 +3,7 @@ const router = express.Router()
 const Admin = require('../model/admin')
 // const auth = require('../middelware/auth')
 // const Service = require('../model/services')
-// const Client = require('../model/clients')
+const Client = require('../model/clients')
 // const Request = require('../model/requests')
 // const Applay = require('../model/applay')
 // const Contact = require('../model/contact')
@@ -110,8 +110,6 @@ const deleteSlider = async (req, res, next) => {
   }
 }
 
-
-
 // router.delete('/admin/slider/deleteall', auth, async (req, res) => {
 //   try {
 //     await Slider.deleteMany({})
@@ -123,6 +121,96 @@ const deleteSlider = async (req, res, next) => {
 // })
 
 // admin
+
+
+
+// clients
+
+
+const addClient = async (req, res, next) => {
+  try {
+    const client = new Client(req.body)
+    if (req.file)
+      client.image = req.file.filename
+    await client.save()
+    res.status(201).json({
+      ok: true,
+      status: 201,
+      message: 'succeeded',
+      body: client
+    })
+  }
+  catch (e) {
+    next(e)
+  }
+}
+const updateClient = async (req, res, next) => {
+  try {
+    const clientId = req.params.id
+    const client = await Client.findByIdAndUpdate({ _id: clientId }, req.body, {
+      new: true,
+      runValidators: true
+    })
+    if (req.file)
+      client.image = req.file.filename
+    await client.save()
+    res.status(200).json({
+      ok: true,
+      status: 200,
+      message: 'succeeded',
+      body: client
+    })
+  }
+  catch (e) {
+    next(e);
+  }
+}
+const getAllClients = async (req, res, next) => {
+  try {
+    const client = await Client.find()
+    res.status(200).json({
+      ok: true,
+      status: 200,
+      message: 'succeeded',
+      body: client
+    })
+  }
+  catch (e) {
+    next(e);
+  }
+}
+const deleteClient = async (req, res, next) => {
+  try {
+    const clientId = req.params.id
+    const client = await Client.findByIdAndDelete({ _id: clientId })
+    res.status(200).json({
+      ok: true,
+      status: 200,
+      message: 'succeeded',
+      body: 'client deleted'
+    })
+  }
+  catch (e) {
+    next(e)
+  }
+}
+
+
+// router.delete('/admin/client/deleteall', auth, async (req, res) => {
+//   try {
+//     await Client.deleteMany({})
+//     res.status(200).send('done')
+//   }
+//   catch (e) {
+//     res.status(400).send(e.message)
+//   }
+// })
+
+
+
+
+
+
 const signUp = async (req, res, next) => {
   try {
     const admin = new Admin(req.body)
@@ -596,6 +684,10 @@ module.exports = {
   updateSlider,
   getAllSliders,
   deleteSlider,
+  addClient,
+  updateClient,
+  getAllClients,
+  deleteClient,
   signUp,
   login,
   logout,
