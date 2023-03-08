@@ -4,7 +4,7 @@ const Admin = require('../model/admin')
 // const auth = require('../middelware/auth')
 // const Service = require('../model/services')
 const Client = require('../model/clients')
-// const Request = require('../model/requests')
+const Request = require('../model/requests')
 // const Applay = require('../model/applay')
 // const Contact = require('../model/contact')
 // const Info = require('../model/information')
@@ -119,11 +119,7 @@ const deleteSlider = async (req, res, next) => {
 //     res.status(400).send(e.message)
 //   }
 // })
-
 // admin
-
-
-
 // clients
 
 
@@ -475,121 +471,6 @@ const logout = async (req, res, next) => {
 // router.delete('/admin/service/deleteall', auth, async (req, res) => {
 //   try {
 //     await Service.deleteMany({})
-//     res.status(200).send('done')
-//   }
-//   catch (e) {
-//     res.status(400).send(e.message)
-//   }
-// })
-// router.get('/admin/request/getall', auth, async (req, res) => {
-//   try {
-//     const request = await Request.find()
-//     res.status(200).send(request)
-//   }
-//   catch (e) {
-//     res.status(400).send(e.message)
-//   }
-// })
-// router.get('/admin/request/getbyid/:id', auth, async (req, res) => {
-//   try {
-//     const requestId = req.params.id
-//     const request = await Request.findById({ _id: requestId })
-//     if (!request) {
-//       return res.status(404).send('لا توجد نتائج مطابقة')
-//     }
-//     return res.status(200).send(request)
-//   }
-//   catch (e) {
-//     res.status(400).send(e.message)
-//   }
-// })
-// router.patch('/admin/request/update/:id', auth, async (req, res) => {
-//   try {
-//     const requestId = req.params.id
-//     const request = await Request.findByIdAndUpdate({ _id: requestId }, req.body, {
-//       new: true,
-//       runValidators: true
-//     })
-//     if (!request) {
-//       return res.status(404).send('لا توجد نتائج مطابقة')
-//     }
-//     await request.save()
-//     return res.status(200).send(request)
-//   }
-//   catch (e) {
-//     res.status(400).send(e.message)
-//   }
-// })
-// router.delete('/admin/request/deletebyid/:id', auth, async (req, res) => {
-//   try {
-//     const requestId = req.params.id
-//     const request = await Request.findByIdAndDelete({ _id: requestId })
-//     if (!request) {
-//       return res.status(404).send('لاتوجد نتائج مطابقه')
-//     }
-//     return res.status(200).send('تمت الإزاله')
-//   }
-//   catch (e) {
-//     res.status(400).send(e.message)
-//   }
-// })
-// router.delete('/admin/request/deleteall', auth, async (req, res) => {
-//   try {
-//     await Request.deleteMany({})
-//     res.status(200).send('done')
-//   }
-//   catch (e) {
-//     res.status(400).send(e.message)
-//   }
-// })
-// router.post('/admin/client/add', auth, Uploads.single('avatar'), async (req, res) => {
-//   try {
-//     const client = new Client(req.body)
-//     client.image = req.file.filename
-//     await client.save()
-//     res.status(200).send(client)
-//   }
-//   catch (e) {
-//     res.status(400).send(e.message)
-//   }
-// })
-// router.get('/admin/client/getall', auth, Uploads.single('avatar'), async (req, res) => {
-//   try {
-//     const client = await Client.find()
-//     res.status(200).send(client)
-//   }
-//   catch (e) {
-//     res.status(400).send(e.message)
-//   }
-// })
-// router.patch('/admin/client/update/:id', auth, Uploads.single('avatar'), async (req, res) => {
-//   try {
-//     const clientId = req.params.id
-//     const client = await Client.findByIdAndUpdate({ _id: clientId }, req.body, {
-//       new: true,
-//       runValidators: true
-//     })
-//     client.image = req.file.filename
-//     await client.save()
-//     res.status(200).send(client)
-//   }
-//   catch (e) {
-//     res.status(400).send(e.message)
-//   }
-// })
-// router.delete('/admin/client/delete/:id', auth, async (req, res) => {
-//   try {
-//     const clientId = req.params.id
-//     const client = await Client.findByIdAndDelete({ _id: clientId })
-//     res.status(200).send('تمت العملية بنجاح')
-//   }
-//   catch (e) {
-//     res.status(400).send(e.message)
-//   }
-// })
-// router.delete('/admin/client/deleteall', auth, async (req, res) => {
-//   try {
-//     await Client.deleteMany({})
 //     res.status(200).send('done')
 //   }
 //   catch (e) {
