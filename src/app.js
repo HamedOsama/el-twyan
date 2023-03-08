@@ -6,6 +6,7 @@ const errorMiddleWare = require('./middleware/error-middleware');
 const ServerError = require('./interface/Error');
 const api = require('./router/index');
 const cookieParser = require("cookie-parser");
+const morgan = require('morgan');
 require('./connection/db')
 
 const PORT = process.PORT || 5000
@@ -14,6 +15,7 @@ const PORT = process.PORT || 5000
 // app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 app.use(cookieParser());
+app.use(morgan('dev'))
 
 // cors
 app.use(cors());
