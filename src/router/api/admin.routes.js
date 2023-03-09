@@ -55,4 +55,11 @@ router.route('/contacts')
 router.route('/contacts/:id')
   .patch(auth, adminController.updateContact)
 
+// blogs
+router.route('/blog')
+  .get(auth, adminController.getAllBlogs)
+  .post(auth, uploadImage.single('image'), adminController.addBlog)
+router.route('/blog/:id')
+  .patch(auth, uploadImage.single('image'), adminController.updateBlog)
+  .delete(auth, adminController.deleteBlog)
 module.exports = router;

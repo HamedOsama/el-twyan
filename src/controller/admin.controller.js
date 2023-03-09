@@ -9,7 +9,7 @@ const Apply = require('../model/apply')
 const Contacts = require('../model/contacts')
 // const Info = require('../model/information')
 const Slider = require('../model/slider')
-// const Blog = require('../model/blogs')
+const Blog = require('../model/blog')
 const NewsLetter = require('../model/newsLetter')
 const multer = require('multer')
 const path = require('path')
@@ -506,8 +506,10 @@ const getContacts = async (req, res, next) => {
 }
 const updateContact = async (req, res, next) => {
   try {
+
     const contactId = req.params.id
-    const contacts = Contacts.findByIdAndUpdate({ _id: contactId }, req.body, {
+    console.log(req.body)
+    const contacts = await Contacts.findByIdAndUpdate({ _id: contactId }, req.body, {
       new: true,
       runValidators: true
     })
@@ -655,51 +657,77 @@ const logout = async (req, res, next) => {
 // })
 
 // //blog
-// router.post('/admin/blog/add', Uploads.single('avatar'), auth, async (req, res) => {
-//   try {
-//     const blog = new Blog(req.body)
-//     if (req.file) {
-//       blog.image = req.file.filename
-//     }
-//     await blog.save()
-//     res.status(200).send(blog)
-//   }
-//   catch (e) {
-//     res.status(400).send(e.message)
-//   }
-// })
-// router.patch('/admin/blog/update/:id', Uploads.single('avatar'), auth, async (req, res) => {
-//   try {
-//     const blogId = req.params.id
-//     const blog = await Blog.findByIdAndUpdate({ _id: blogId }, req.body, {
-//       new: true,
-//       runValidators: true
-//     })
-//     if (!blog) {
-//       return res.status(404).send('not found')
-//     }
-//     if (req.file)
-//       blog.image = req.file.filename
-//     await blog.save()
-//     res.status(200).send(blog)
-//   }
-//   catch (e) {
-//     res.status(400).send(e.massage)
-//   }
-// })
-// router.delete('/admin/blog/deletebyid/:id', auth, async (req, res) => {
-//   try {
-//     const blogId = req.params.id
-//     const blog = await Blog.findByIdAndDelete({ _id: blogId })
-//     if (!blog) {
-//       return res.status(404).send('not found')
-//     }
-//     res.status(200).send('successfuly deleted')
-//   }
-//   catch (e) {
-//     res.status(400).send(e.massage)
-//   }
-// })
+const addBlog = async (req, res, next) => {
+  try {
+    const blog = new Blog(req.body)
+    if (req.file) {
+      blog.image = req.file.filename
+    }
+    await blog.save()
+    res.status(201).json({
+      ok: true,
+      status: 201,
+      message: 'succeeded',
+      body: blog
+    })
+  }
+  catch (e) {
+    next(e)
+  }
+}
+const getAllBlogs = async (req, res, next) => {
+  try {
+    const blogs = await Blog.find({})
+    res.status(200).json({
+      ok: true,
+      status: 200,
+      message: 'succeeded',
+      body: blogs
+    })
+  }
+  catch (e) {
+    next(e)
+  }
+}
+const updateBlog = async (req, res, next) => {
+  try {
+    const blogId = req.params.id
+    const blog = await Blog.findOneAndUpdate({ _id: blogId }, req.body, {
+      new: true,
+      runValidators: true
+    })
+    if (!blog) {
+      return res.status(404).send('not found')
+    }
+    await blog.save()
+    res.status(200).json({
+      ok: true,
+      status: 200,
+      message: 'succeeded',
+      body: blog
+    })
+  }
+  catch (e) {
+    next(e)
+  }
+}
+const deleteBlog = async (req, res, next) => {
+  try {
+    const blogId = req.params.id;
+    const blog = await Blog.findOneAndDelete({ _id: blogId });
+    if (!blog)
+      return res.status(404).send("not found");
+    res.status(200).json({
+      ok: true,
+      status: 200,
+      message: "succeeded",
+      body: "successfuly deleted"
+    });
+  } catch (e) {
+    next(e);
+  }
+}
+
 // router.delete('/admin/blog/deleteall', auth, async (req, res) => {
 //   try {
 //     await Blog.deleteMany({})
@@ -735,6 +763,10 @@ module.exports = {
   addContact,
   getContacts,
   updateContact,
+  addBlog,
+  getAllBlogs,
+  updateBlog,
+  deleteBlog,
   signUp,
   login,
   logout,
