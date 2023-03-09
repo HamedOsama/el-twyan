@@ -32,4 +32,27 @@ router.route('/request/:id')
   .get(auth, adminController.getRequestById)
   .patch(auth, adminController.updateRequest)
   .delete(auth, adminController.deleteRequest)
+
+// apply
+router.route('/apply').get(auth, adminController.getAllApplies)
+router.route('/apply/:id')
+  .get(auth, adminController.getApplyById)
+  .delete(auth, adminController.deleteApply)
+
+// service
+router.route('/service')
+  .get(auth, adminController.getAllServices)
+  .post(auth, uploadImage.single('image'), adminController.addService)
+router.route('/service/:id')
+  .get(auth, adminController.getServiceById)
+  .patch(auth, uploadImage.single('image'), adminController.updateService)
+  .delete(auth, adminController.deleteService)
+
+// contacts 
+router.route('/contacts')
+  .get(auth, adminController.getContacts)
+  .post(auth, adminController.addContact)
+router.route('/contacts/:id')
+  .patch(auth, adminController.updateContact)
+
 module.exports = router;

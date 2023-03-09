@@ -2,11 +2,11 @@ const express = require('express')
 const router = express.Router()
 const Admin = require('../model/admin')
 // const auth = require('../middelware/auth')
-// const Service = require('../model/services')
+const Service = require('../model/services')
 const Client = require('../model/clients')
 const Request = require('../model/requests')
-// const Applay = require('../model/applay')
-// const Contact = require('../model/contact')
+const Apply = require('../model/apply')
+const Contacts = require('../model/contacts')
 // const Info = require('../model/information')
 const Slider = require('../model/slider')
 // const Blog = require('../model/blogs')
@@ -291,6 +291,7 @@ const deleteRequest = async (req, res, next) => {
     next(e);
   }
 }
+
 // router.delete('/admin/request/deleteall', auth, async (req, res) => {
 //   try {
 //     await Request.deleteMany({})
@@ -301,9 +302,230 @@ const deleteRequest = async (req, res, next) => {
 //   }
 // })
 
+// apply
+
+const getAllApplies = async (req, res, next) => {
+  try {
+    const applies = await Apply.find({})
+    res.status(200).json({
+      ok: true,
+      status: 200,
+      message: 'succeeded',
+      body: applies
+    })
+  }
+  catch (e) {
+    next(e)
+  }
+}
+const getApplyById = async (req, res, next) => {
+  try {
+    const applyId = req.params.id
+    const apply = await Apply.findById({ _id: applyId })
+    if (!apply) {
+      return res.status(404).send('not found')
+    }
+    return res.status(200).json({
+      ok: true,
+      status: 200,
+      message: 'succeeded',
+      body: apply
+    })
+  }
+  catch (e) {
+    next(e);
+  }
+}
+const deleteApply = async (req, res, next) => {
+  try {
+    const applyId = req.params.id
+    const apply = await Apply.findByIdAndDelete({ _id: applyId })
+    if (!apply) {
+      return res.status(404).send('not found')
+    }
+    res.status(200).json({
+      ok: true,
+      status: 200,
+      message: 'succeeded',
+      body: 'apply deleted'
+    })
+  }
+  catch (e) {
+    next(e)
+  }
+}
+
+// router.delete('/admin/applay/deleteall', auth, async (req, res) => {
+//   try {
+//     await Applay.deleteMany({})
+//     res.status(200).send('done')
+//   }
+//   catch (e) {
+//     res.status(400).send(e.message)
+//   }
+// })
+
+// services
+
+const addService = async (req, res, next) => {
+  try {
+    const service = new Service(req.body)
+    if (req.file)
+      service.image = req.file.filename
+    await service.save()
+    res.status(201).json({
+      ok: true,
+      status: 201,
+      message: 'succeeded',
+      body: service
+    })
+  }
+  catch (e) {
+    next(e)
+  }
+}
+const getAllServices = async (req, res, next) => {
+  try {
+    const services = await Service.find()
+    res.status(200).json({
+      ok: true,
+      status: 200,
+      message: 'succeeded',
+      body: services
+    })
+  }
+  catch (e) {
+    next(e)
+  }
+}
+const getServiceById = async (req, res, next) => {
+  try {
+    const serviceId = req.params.id
+    const service = await Service.findById({ _id: serviceId })
+    if (!service) {
+      return res.status(404).send('not found')
+    }
+    return res.status(200).json({
+      ok: true,
+      status: 200,
+      message: 'succeeded',
+      body: service
+    })
+  }
+  catch (e) {
+    next(e);
+  }
+}
+const updateService = async (req, res, next) => {
+  try {
+    const serviceId = req.params.id
+    const service = await Service.findByIdAndUpdate({ _id: serviceId }, req.body, {
+      new: true,
+      runValidators: true
+    })
+    if (!service)
+      return res.status(404).send('not found')
+    if (req.file) {
+      service.image = req.file.filename
+    }
+    await service.save()
+    return res.status(200).json({
+      ok: true,
+      status: 200,
+      message: 'succeeded',
+      body: service
+    })
+  }
+  catch (e) {
+    next(e)
+  }
+}
+const deleteService = async (req, res, next) => {
+  try {
+    const serviceId = req.params.id
+    const service = await Service.findByIdAndDelete({ _id: serviceId })
+    if (!service) {
+      return res.status(404).send('not found')
+    }
+    res.status(200).json({
+      ok: true,
+      status: 200,
+      message: 'succeeded',
+      body: 'service deleted'
+    })
+  }
+  catch (e) {
+    next(e)
+  }
+}
+
+// router.delete('/admin/service/deleteall', auth, async (req, res) => {
+//   try {
+//     await Service.deleteMany({})
+//     res.status(200).send('done')
+//   }
+//   catch (e) {
+//     res.status(400).send(e.message)
+//   }
+// })
+
+//
 
 
 
+
+// contacts
+const addContact = async (req, res, next) => {
+  try {
+    const contact = new Contacts(req.body)
+    await contact.save()
+    res.status(201).json({
+      ok: true,
+      status: 201,
+      message: 'succeeded',
+      body: contact
+    })
+  }
+  catch (e) {
+    next(e)
+  }
+}
+const getContacts = async (req, res, next) => {
+  try {
+    const contact = await Contacts.findOne({})
+    res.status(200).json({
+      ok: true,
+      status: 200,
+      message: 'succeeded',
+      body: contact
+    })
+  }
+  catch (e) {
+    next(e)
+  }
+}
+const updateContact = async (req, res, next) => {
+  try {
+    const contactId = req.params.id
+    const contacts = Contacts.findByIdAndUpdate({ _id: contactId }, req.body, {
+      new: true,
+      runValidators: true
+    })
+    if (!contacts)
+      return res.status(404).send('not found')
+    await contacts.save()
+    return res.status(200).json({
+      ok: true,
+      status: 200,
+      message: 'succeeded',
+      body: contacts
+    })
+  }
+  catch (e) {
+    next(e)
+  }
+}
+// admin
 const signUp = async (req, res, next) => {
   try {
     const admin = new Admin(req.body)
@@ -352,6 +574,10 @@ const logout = async (req, res, next) => {
   }
 }
 
+
+
+
+
 // router.get('/profile', auth, async (req, res) => {
 //   try {
 //     res.status(200).send(req.admin)
@@ -396,169 +622,6 @@ const logout = async (req, res, next) => {
 //   }
 //   catch (e) {
 //     res.status(500).send(e.message)
-//   }
-// })
-// router.post('/admin/service/add', auth, Uploads.single('avatar'), async (req, res) => {
-//   try {
-//     const service = new Service(req.body)
-//     if (req.file) {
-//       service.image = req.file.filename
-//     }
-//     await service.save()
-//     res.status(200).send(service)
-//   }
-//   catch (e) {
-//     res.status(400).send(e.message)
-//   }
-// })
-// router.patch('/admin/service/update/:id', auth, Uploads.single('avatar'), async (req, res) => {
-//   try {
-//     const serviceId = req.params.id
-//     const service = await Service.findByIdAndUpdate({ _id: serviceId }, req.body,
-//       {
-//         new: true,
-//         runValidators: true
-//       })
-//     if (!service)
-//       return res.status(200).send('لا توجد نتائج مطابقة')
-//     if (req.file) {
-//       service.image = req.file.filename
-//     }
-//     await service.save()
-//     return res.status(200).send(service)
-//   }
-//   catch (e) {
-//     res.status(400).send(e.message)
-//   }
-// })
-// router.get('/admin/service/getbyid/:id', auth, async (req, res) => {
-//   try {
-//     const serviceId = req.params.id
-//     const service = await Service.findById({ _id: serviceId })
-//     if (!service) {
-//       return res.status(404).send('لا توجد نتائج مطابقه ')
-//     }
-//     return res.status(200).send(service)
-
-//   }
-//   catch (e) {
-//     res.status(400).send(e.message)
-//   }
-// })
-// router.get('/admin/service/getall', auth, async (req, res) => {
-//   try {
-//     const service = await Service.find()
-//     res.status(200).send(service)
-//   }
-//   catch (e) {
-//     res.status(400).send(e.massage)
-//   }
-// })
-// router.delete('/admin/service/deletebyid/:id', auth, async (req, res) => {
-//   try {
-//     const serviceId = req.params.id
-//     const service = await Service.findByIdAndDelete({ _id: serviceId })
-//     if (!service) {
-//       return res.status(404).send('لا توجد نتائج متطابقه')
-
-//     }
-//     return res.status(200).send("تمت العملية بنجاح")
-//   }
-//   catch (e) {
-//     res.status(400).send(e.massage)
-//   }
-// })
-// router.delete('/admin/service/deleteall', auth, async (req, res) => {
-//   try {
-//     await Service.deleteMany({})
-//     res.status(200).send('done')
-//   }
-//   catch (e) {
-//     res.status(400).send(e.message)
-//   }
-// })
-// router.get('/admin/applay/all', auth, async (req, res) => {
-//   try {
-//     const applaies = await Applay.find({})
-//     res.status(200).send(applaies)
-//   }
-//   catch (e) {
-//     res.status(400).send(e.message)
-//   }
-// })
-// router.get('/admin/applay/getbyid/:id', auth, async (req, res) => {
-//   try {
-//     const applayId = req.params.id
-//     const applay = await Applay.findById({ _id: applayId })
-//     if (!applay) {
-//       return res.status(404).send('لا توجد نتائج مطابقة')
-//     }
-//     return res.status(200).send(applay)
-//   }
-//   catch (e) {
-//     res.status(400).send(e.message)
-//   }
-// })
-
-// router.delete('/admin/applay/deletebyId/:id', auth, async (req, res) => {
-//   try {
-//     const applayId = req.params.id
-//     const applay = await Applay.findByIdAndDelete({ _id: applayId })
-//     if (!applay) {
-//       return res.status(404).send('لا توجد نتائج مطابقه')
-//     }
-//     res.status(200).send('done')
-//   }
-//   catch (e) {
-//     res.status(400).send(e.message)
-//   }
-// })
-// router.delete('/admin/applay/deleteall', auth, async (req, res) => {
-//   try {
-//     await Applay.deleteMany({})
-//     res.status(200).send('done')
-//   }
-//   catch (e) {
-//     res.status(400).send(e.message)
-//   }
-// })
-
-// //contact us 
-// router.post('/admin/contact/add', auth, async (req, res) => {
-//   try {
-//     const contact = new Contact(req.body)
-//     await contact.save()
-//     res.status(200).send(contact)
-//   }
-//   catch (e) {
-//     res.status(400).send(e.message)
-//   }
-// })
-// router.get('/admin/contact/all', auth, async (req, res) => {
-//   try {
-//     const contact = await Contact.find({})
-//     res.status(200).send(contact)
-//   }
-//   catch (e) {
-//     res.status(400).send(e.message)
-//   }
-
-// })
-// router.patch('/admin/contact/update/:id', auth, async (req, res) => {
-//   try {
-//     const contactId = req.params.id
-//     const contact = await Contact.findByIdAndUpdate({ _id: contactId }, req.body, {
-//       new: true,
-//       runValidators: true
-//     })
-//     if (!contact) {
-//       return res.status(404).send('not found')
-//     }
-//     await contact.save()
-//     res.status(200).send(contact)
-//   }
-//   catch (e) {
-//     res.status(400).send(e.message)
 //   }
 // })
 // //general-information
@@ -661,6 +724,17 @@ module.exports = {
   getRequestById,
   updateRequest,
   deleteRequest,
+  getAllApplies,
+  getApplyById,
+  deleteApply,
+  addService,
+  getAllServices,
+  getServiceById,
+  updateService,
+  deleteService,
+  addContact,
+  getContacts,
+  updateContact,
   signUp,
   login,
   logout,
