@@ -7,6 +7,7 @@ const applyRoutes = require('./api/apply.routes');
 const newsLetterRoutes = require('./api/newsLetter.routes');
 const sliderRoutes = require('./api/slider.routes');
 const adminRoutes = require('./api/admin.routes');
+const contactsRoutes = require('./api/contacts.routes');
 
 const router = Router();
 
@@ -17,5 +18,6 @@ router.use('/apply', applyRoutes);
 router.use('/news-letter', newsLetterRoutes);
 router.use('/slider', sliderRoutes);
 router.use('/admin', adminRoutes);
+router.use('/contacts', contactsRoutes);
 
 module.exports = router;
