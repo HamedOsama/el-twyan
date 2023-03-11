@@ -4,10 +4,13 @@ const informationSchema = mongoose.Schema({
     ar: {
       type: String,
       trim: true,
+      unique: true,
+
     },
     en: {
       type: String,
       trim: true,
+      unique: true,
     }
   },
   description: {
