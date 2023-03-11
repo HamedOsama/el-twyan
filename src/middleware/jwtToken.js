@@ -10,9 +10,9 @@ const sendToken = async(user, statusCode, res) => {
       Date.now() + 90 * 24 * 60 * 60 * 1000
     ),
     httpOnly: true,
-    secure: false,
+    secure: true,
     path : '/',
-    domain: '89.116.236.15', 
+    domain: 'dummydealer.com', 
     sameSite : 'lax',
   };
   user.tokens = null
