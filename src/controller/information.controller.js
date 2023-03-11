@@ -40,35 +40,10 @@ const getInformation = async (req, res, next) => {
   }
 }
 
-const searchInformation = async (req, res, next) => {
-  try {
-    if (!req.params.title) {
-      return next(ServerError.badRequest(401, 'information title is required'));
-    }
-    const information = await Information.find({
-      $or: [
-        { 'title.en': new RegExp(req.params.title, 'i') },
-        { 'title.ar': new RegExp(req.params.title, 'i') },
-
-      ]
-    });
-    if (!information) {
-      return next(ServerError.badRequest(401, 'information not found'))
-    }
-    res.status(200).json({
-      ok: true,
-      status: 200,
-      message: 'succeeded',
-      body: information
-    })
-  } catch (e) {
-    next(e);
-  }
-}
 
 
 module.exports = {
   getAllInformation,
   getInformation,
-  searchInformation
+  
 }
