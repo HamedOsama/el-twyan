@@ -9,6 +9,7 @@ const sliderRoutes = require('./api/slider.routes');
 const adminRoutes = require('./api/admin.routes');
 const contactsRoutes = require('./api/contacts.routes');
 const blogRoutes = require('./api/blog.routes');
+const informationRoutes = require('./api/information.routes');
 
 const router = Router();
 
@@ -21,5 +22,6 @@ router.use('/slider', sliderRoutes);
 router.use('/admin', adminRoutes);
 router.use('/contacts', contactsRoutes);
 router.use('/blogs', blogRoutes);
+router.use('/information', informationRoutes);
 
 module.exports = router;
