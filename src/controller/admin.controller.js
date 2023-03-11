@@ -7,7 +7,7 @@ const Client = require('../model/clients')
 const Request = require('../model/requests')
 const Apply = require('../model/apply')
 const Contacts = require('../model/contacts')
-// const Info = require('../model/information')
+const Info = require('../model/information')
 const Slider = require('../model/slider')
 const Blog = require('../model/blog')
 const NewsLetter = require('../model/newsLetter')
@@ -627,34 +627,75 @@ const logout = async (req, res, next) => {
 //   }
 // })
 // //general-information
-// router.post('/admin/info/add', auth, async (req, res) => {
-//   try {
-//     const info = new Info(req.body)
-//     await info.save()
-//     res.status(200).send(info)
-//   }
-//   catch (e) {
-//     res.status(400).send(e.message)
-//   }
-// })
-// router.patch('/admin/info/update/:id', auth, async (req, res) => {
-//   try {
-//     const infoId = req.params.id
-//     const info = await Info.findByIdAndUpdate({ _id: infoId }, req.body, {
-//       new: true,
-//       runValidators: true
-//     })
-//     if (!info) {
-//       return res.status(404).send('not found')
-//     }
-//     await info.save()
-//     res.status(200).send(info)
 
-//   }
-//   catch (e) {
-//     res.status(400).send(e.message)
-//   }
-// })
+const addInfo = async (req, res, next) => {
+  try {
+    const info = new Info(req.body)
+    await info.save()
+    res.status(201).json({
+      ok: true,
+      status: 201,
+      message: 'succeeded',
+      body: info
+    })
+  }
+  catch (e) {
+    next(e)
+  }
+}
+const getAllInfo = async (req, res, next) => {
+  try {
+    const info = await Info.find({})
+    res.status(200).json({
+      ok: true,
+      status: 200,
+      message: 'succeeded',
+      body: info
+    })
+  }
+  catch (e) {
+    next(e)
+  }
+}
+const updateInfo = async (req, res, next) => {
+  try {
+    const infoId = req.params.id
+    const info = await Info.findByIdAndUpdate({ _id: infoId }, req.body, {
+      new: true,
+      runValidators: true
+    })
+    if (!info)
+      return res.status(404).send('not found')
+    await info.save()
+    return res.status(200).json({
+      ok: true,
+      status: 200,
+      message: 'succeeded',
+      body: info
+    })
+  }
+  catch (e) {
+    next(e)
+  }
+}
+const deleteInfo = async (req, res, next) => {
+  try {
+    const infoId = req.params.id
+    const info = await Info.findByIdAndDelete({ _id: infoId });
+    if (!info)
+      return res.status(404).send('not found');
+    return res.status(200).json({
+      ok: true,
+      status: 200,
+      message: 'succeeded',
+      body: info
+    })
+  }
+  catch (e) {
+    next(e)
+  }
+}
+
 
 // //blog
 const addBlog = async (req, res, next) => {
@@ -767,6 +808,10 @@ module.exports = {
   getAllBlogs,
   updateBlog,
   deleteBlog,
+  addInfo,
+  getAllInfo,
+  updateInfo,
+  deleteInfo,
   signUp,
   login,
   logout,

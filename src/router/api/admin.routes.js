@@ -62,4 +62,12 @@ router.route('/blog')
 router.route('/blog/:id')
   .patch(auth, uploadImage.single('image'), adminController.updateBlog)
   .delete(auth, adminController.deleteBlog)
+
+// information 
+router.route('/information')
+  .get(auth, adminController.getAllInfo)
+  .patch(auth, adminController.updateInfo)
+router.route('/information/:id')
+  .patch(auth, adminController.updateInfo)
+  .delete(auth, adminController.deleteInfo)
 module.exports = router;
