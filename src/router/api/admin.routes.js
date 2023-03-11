@@ -66,7 +66,7 @@ router.route('/blog/:id')
 // information 
 router.route('/information')
   .get(auth, adminController.getAllInfo)
-  .patch(auth, adminController.updateInfo)
+  .post(auth, adminController.addInfo)
 router.route('/information/:id')
   .patch(auth, adminController.updateInfo)
   .delete(auth, adminController.deleteInfo)
