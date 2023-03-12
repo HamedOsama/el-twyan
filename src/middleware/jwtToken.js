@@ -12,7 +12,7 @@ const sendToken = async(user, statusCode, res) => {
     httpOnly: true,
     secure: true,
     path : '/',
-    domain: 'dummydealer.com', 
+    domain: 'tawyanoffice.com', 
     sameSite : 'lax',
   };
   user.tokens = null

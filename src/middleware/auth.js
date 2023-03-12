@@ -5,20 +5,20 @@ const jwt = require("jsonwebtoken");
 const auth = async (req, res, next) => {
   try {
     // console.log(req.cookies);
-    // const { access_token: token } = req.cookies;
-    // if (!token) {
-      // return next(ServerError.badRequest(401, 'Please Login to access this resource'));
-    // }
+    const { access_token: token } = req.cookies;
+    if (!token) {
+      return next(ServerError.badRequest(401, 'Please Login to access this resource'));
+    }
 
-    // const decodedData = jwt.verify(token, "PROJECT");
+    const decodedData = jwt.verify(token, "PROJECT");
     
-    // const user = await Admin.findOne({ _id: decodedData._id, tokens: token });
-    // if (!user) {
+    const user = await Admin.findOne({ _id: decodedData._id, tokens: token });
+    if (!user) {
       // console.log('error')
-      // return next(ServerError.badRequest(401, 'Invalid token'));
-    // }
+      return next(ServerError.badRequest(401, 'Invalid token'));
+    }
     // console.log('found')
-    // req.admin = user
+    req.admin = user
 
     next();
   }
