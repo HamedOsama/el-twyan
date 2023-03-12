@@ -147,6 +147,9 @@ const updateClient = async (req, res, next) => {
       new: true,
       runValidators: true
     })
+    if (!client) {
+      return res.status(404).send('not found')
+    }
     if (req.file)
       client.image = req.file.filename
     await client.save()
