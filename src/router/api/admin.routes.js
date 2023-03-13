@@ -9,7 +9,7 @@ const router = Router();
 // auth 
 router.post('/signup', adminController.signUp)
 router.post('/login', adminController.login)
-router.post('logout', auth, adminController.logout)
+router.post('/logout', auth, adminController.logout)
 router.get('/auth', auth, adminController.auth)
 
 //slider
