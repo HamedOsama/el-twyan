@@ -545,9 +545,7 @@ const signUp = async (req, res, next) => {
 const login = async (req, res, next) => {
   try {
     const admin = await Admin.Login(req.body.email, req.body.password)
-
     sendToken(admin, 200, res);
-
   }
   catch (e) {
     next(e);
@@ -576,6 +574,17 @@ const logout = async (req, res, next) => {
   }
   catch (e) {
     next(e);
+  }
+}
+const auth = async (req, res, next) => {
+  try {
+    res.status(200).json({
+      ok: true,
+      code: 200,
+      message: 'succeeded',
+    })
+  } catch (e) {
+    next(e)
   }
 }
 
@@ -818,4 +827,5 @@ module.exports = {
   signUp,
   login,
   logout,
+  auth,
 }
