@@ -564,8 +564,8 @@ const logout = async (req, res, next) => {
       httpOnly: true,
       secure: true,
       path: '/',
-      // domain: '.trendlix.com',
-      sameSite: 'none',
+      domain: '.tawyanoffice.com',
+      sameSite: 'lax',
     }).json({
       ok: true,
       code: 200,
