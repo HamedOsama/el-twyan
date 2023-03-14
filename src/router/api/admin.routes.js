@@ -11,6 +11,7 @@ router.post('/signup', adminController.signUp)
 router.post('/login', adminController.login)
 router.post('/logout', auth, adminController.logout)
 router.get('/auth', auth, adminController.auth)
+router.patch('/', auth, adminController.updateProfile)
 
 //slider
 router.route('/slider')

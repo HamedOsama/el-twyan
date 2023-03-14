@@ -551,7 +551,6 @@ const login = async (req, res, next) => {
     next(e);
   }
 }
-
 const logout = async (req, res, next) => {
   try {
     req.admin.tokens = req.admin.tokens.filter(el => {
@@ -587,8 +586,24 @@ const auth = async (req, res, next) => {
     next(e)
   }
 }
+const updateProfile = async (req, res, next) => {
+  try {
+    const Update = Object.keys(req.body)
+    Update.forEach(el => { req.admin[el] = req.body[el] })
 
-
+    
+    await req.admin.save()
+    res.status(200).json({
+      ok: true,
+      code: 200,
+      message: 'succeeded',
+      body: req.admin
+    })
+  }
+  catch (e) {
+    next(e)
+  }
+}
 
 
 
@@ -828,4 +843,5 @@ module.exports = {
   login,
   logout,
   auth,
+  updateProfile
 }
